@@ -27,7 +27,7 @@ export function EventCard() {
                 <rect x="3" y="4" width="18" height="18" rx="2" />
                 <path d="M16 2v4M8 2v4M3 10h18" />
               </svg>
-              {launchEvent.date} &middot; {launchEvent.time}
+              {launchEvent.date}
             </div>
             <div className="flex items-center gap-2">
               <svg
@@ -53,7 +53,7 @@ export function EventCard() {
             href="/events/launch-meetup"
             className="mt-6 inline-block rounded-md bg-[var(--color-accent)] px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-[var(--color-accent-hover)]"
           >
-            See Details & RSVP
+            See Details
           </Link>
         </div>
       </div>

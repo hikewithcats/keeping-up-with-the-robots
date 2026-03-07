@@ -6,7 +6,16 @@ import { PageHeader } from "@/components/PageHeader";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "About Keeping Up With The Robots — the first AI builder community in Western Mass.",
+    "The story behind Keeping Up With The Robots — who runs it, why it exists, and how it was built with Claude Code.",
+  alternates: {
+    canonical: "https://keepingupwiththerobots.com/about",
+  },
+  openGraph: {
+    title: "About — Keeping Up With The Robots",
+    description:
+      "The story behind Keeping Up With The Robots — who runs it, why it exists, and how it was built with Claude Code.",
+    url: "https://keepingupwiththerobots.com/about",
+  },
 };
 
 export default function AboutPage() {
@@ -30,9 +39,9 @@ export default function AboutPage() {
                 work, and collaborate.
               </p>
               <p>
-                Keeping Up With The Robots changes that. We&apos;re building the
-                first builder-focused AI community in the Pioneer Valley — for
-                developers, founders, and indie hackers who are actively
+                Keeping Up With The Robots is helping change that. We&apos;re
+                building a builder-focused AI community in the Pioneer Valley —
+                for developers, founders, and indie hackers who are actively
                 building with AI tools, not just talking about them.
               </p>
               <p>
@@ -104,19 +113,21 @@ export default function AboutPage() {
           <section>
             <h2 className="text-2xl font-bold">Get Involved</h2>
             <div className="mt-6 flex flex-col gap-4 sm:flex-row">
-              <a
-                href={siteConfig.discord}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-md bg-[#5865F2] px-6 py-3 text-center text-sm font-semibold transition-opacity hover:opacity-90"
-              >
-                Join Discord
-              </a>
+              {siteConfig.discord && (
+                <a
+                  href={siteConfig.discord}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-md bg-[#5865F2] px-6 py-3 text-center text-sm font-semibold transition-opacity hover:opacity-90"
+                >
+                  Join Discord
+                </a>
+              )}
               <Link
                 href="/events/launch-meetup"
                 className="rounded-md bg-[var(--color-accent)] px-6 py-3 text-center text-sm font-semibold transition-colors hover:bg-[var(--color-accent-hover)]"
               >
-                RSVP for the Meetup
+                See the First Meetup
               </Link>
               <Link
                 href="/community"

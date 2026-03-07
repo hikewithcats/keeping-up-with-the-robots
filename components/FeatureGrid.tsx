@@ -29,7 +29,7 @@ export function FeatureGrid() {
           This is not an intro to ChatGPT.
         </h2>
         <p className="mx-auto mt-3 max-w-[600px] text-center text-[var(--color-text-muted)]">
-          This community is for people who are building things with AI.
+          This community is for people who are actively building with AI.
         </p>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2">

@@ -1,5 +1,20 @@
 import { NextResponse } from "next/server";
 
+// ============================================================
+// Newsletter signup handler — Resend integration
+//
+// Required Vercel environment variables:
+//   RESEND_API_KEY       — your Resend API key (required for production)
+//   RESEND_AUDIENCE_ID   — your Resend audience ID (recommended)
+//
+// Behavior:
+//   - With both vars set: adds the contact to your Resend audience
+//   - With only API key:  sends a welcome email to the subscriber
+//   - With neither:       logs to console and returns success (dev mode)
+//
+// Set these in Vercel → Settings → Environment Variables
+// ============================================================
+
 export async function POST(request: Request) {
   try {
     const { email } = await request.json();
@@ -14,15 +29,15 @@ export async function POST(request: Request) {
     const apiKey = process.env.RESEND_API_KEY;
 
     if (!apiKey) {
-      // In development without Resend configured, log and return success
-      console.log("Newsletter signup (no Resend key):", email);
+      // No Resend key — log and return success (safe for local dev)
+      console.log("Newsletter signup (no RESEND_API_KEY set):", email);
       return NextResponse.json({ success: true });
     }
 
     const audienceId = process.env.RESEND_AUDIENCE_ID;
 
     if (audienceId) {
-      // Add to Resend audience
+      // Preferred path: add contact to Resend audience
       const res = await fetch(
         `https://api.resend.com/audiences/${audienceId}/contacts`,
         {
@@ -37,14 +52,14 @@ export async function POST(request: Request) {
 
       if (!res.ok) {
         const data = await res.json();
-        console.error("Resend error:", data);
+        console.error("Resend audience error:", data);
         return NextResponse.json(
           { error: "Something went wrong. Try again." },
           { status: 500 }
         );
       }
     } else {
-      // Send a welcome email as fallback
+      // Fallback: send a welcome email (no audience configured)
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -61,7 +76,7 @@ export async function POST(request: Request) {
 
       if (!res.ok) {
         const data = await res.json();
-        console.error("Resend error:", data);
+        console.error("Resend email error:", data);
         return NextResponse.json(
           { error: "Something went wrong. Try again." },
           { status: 500 }

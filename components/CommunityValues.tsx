@@ -15,9 +15,9 @@ const values = [
       "Based in Western Mass, connected to the world. We build for real markets from the Pioneer Valley.",
   },
   {
-    title: "Inclusive Expertise",
+    title: "All Levels, Same Energy",
     description:
-      "Whether you're a senior engineer or just wrote your first AI prompt, you're welcome here. Curiosity is the only requirement.",
+      "Whether you're a senior engineer or writing your first automation, you belong here. The only requirement is that you're actively building or experimenting.",
   },
 ];
 

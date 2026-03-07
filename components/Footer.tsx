@@ -2,9 +2,17 @@ import Link from "next/link";
 import { siteConfig, navLinks } from "@/content/site";
 
 export function Footer() {
+  const socialLinks = [
+    { label: "Discord", url: siteConfig.discord },
+    { label: "X / Twitter", url: siteConfig.twitter },
+    { label: "LinkedIn", url: siteConfig.linkedin },
+  ];
+
+  const hasAnySocial = socialLinks.some((l) => l.url);
+
   return (
     <footer className="border-t border-white/8 bg-[var(--color-bg)]">
-      <div className="mx-auto grid max-w-[1200px] gap-8 px-6 py-16 md:grid-cols-3">
+      <div className={`mx-auto grid max-w-[1200px] gap-8 px-6 py-16 ${hasAnySocial ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
         {/* Brand */}
         <div>
           <p className="font-bold">{siteConfig.name}</p>
@@ -32,33 +40,24 @@ export function Footer() {
           ))}
         </div>
 
-        {/* Social */}
-        <div className="flex flex-col gap-2">
-          <a
-            href={siteConfig.discord}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text-primary)]"
-          >
-            Discord
-          </a>
-          <a
-            href={siteConfig.twitter}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text-primary)]"
-          >
-            X / Twitter
-          </a>
-          <a
-            href={siteConfig.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text-primary)]"
-          >
-            LinkedIn
-          </a>
-        </div>
+        {/* Social — only render column if at least one link exists */}
+        {hasAnySocial && (
+          <div className="flex flex-col gap-2">
+            {socialLinks.map((link) =>
+              link.url ? (
+                <a
+                  key={link.label}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text-primary)]"
+                >
+                  {link.label}
+                </a>
+              ) : null
+            )}
+          </div>
+        )}
       </div>
 
       {/* Bottom bar */}

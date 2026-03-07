@@ -7,10 +7,17 @@ export function SocialProof() {
           meet in Western Mass. Now there is.&rdquo;
         </blockquote>
         <p className="mt-4 text-sm text-[var(--color-text-muted)]">
-          — Patrick, Founder
+          — Patrick Hourihan, Organizer
         </p>
 
-        <p className="mx-auto mt-10 max-w-[600px] text-sm text-[var(--color-text-muted)]">
+        <div className="mx-auto mt-12 max-w-[600px] rounded-lg border border-white/8 bg-[var(--color-bg-card)] px-6 py-4">
+          <p className="text-sm text-[var(--color-text-muted)]">
+            Currently organizing in the Pioneer Valley. First meetup in
+            planning — subscribe to get the details first.
+          </p>
+        </div>
+
+        <p className="mx-auto mt-8 max-w-[600px] text-sm text-[var(--color-text-muted)]">
           Connected to the UMass Amherst tech community, Valley Venture Mentors,
           and Pioneer Valley&apos;s developer ecosystem.
         </p>

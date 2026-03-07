@@ -1,15 +1,28 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { launchEvent } from "@/content/event";
 import { PageHeader } from "@/components/PageHeader";
 import { AgendaTimeline } from "@/components/AgendaTimeline";
 import { SpeakerCard } from "@/components/SpeakerCard";
 
 export const metadata: Metadata = {
-  title: "Launch Meetup",
-  description: launchEvent.description,
+  title: "First Meetup — Western Mass AI Builders",
+  description:
+    "The first Western Mass AI Builders meetup. Lightning talks, live demos, and structured networking for developers and founders building with AI.",
+  alternates: {
+    canonical: "https://keepingupwiththerobots.com/events/launch-meetup",
+  },
+  openGraph: {
+    title: "First Meetup — Western Mass AI Builders",
+    description:
+      "Lightning talks, live demos, and structured networking. For people who build with AI, not just talk about it.",
+    url: "https://keepingupwiththerobots.com/events/launch-meetup",
+  },
 };
 
 export default function LaunchMeetupPage() {
+  const hasRsvpLink = launchEvent.rsvpUrl && launchEvent.rsvpUrl !== "#";
+
   return (
     <>
       <PageHeader
@@ -32,6 +45,10 @@ export default function LaunchMeetupPage() {
             {/* Agenda */}
             <section>
               <h2 className="text-xl font-bold">Agenda</h2>
+              <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                Approximate format for a ~90-minute meetup. Exact times will be
+                posted when the date is confirmed.
+              </p>
               <div className="mt-4">
                 <AgendaTimeline />
               </div>
@@ -44,6 +61,20 @@ export default function LaunchMeetupPage() {
                 {launchEvent.speakers.map((s) => (
                   <SpeakerCard key={s.name + s.topic} {...s} />
                 ))}
+              </div>
+              <div className="mt-6 rounded-lg border border-white/8 bg-[var(--color-bg-card)] p-6">
+                <p className="font-medium">Speaker lineup in progress</p>
+                <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                  We&apos;re finalizing lightning talk speakers for the first meetup.
+                  Interested in presenting? Join the community and let us know
+                  what you&apos;re building.
+                </p>
+                <Link
+                  href="/community"
+                  className="mt-4 inline-block rounded-md border border-white/15 px-4 py-2 text-sm font-medium transition-colors hover:border-white/30 hover:bg-white/5"
+                >
+                  Get in Touch
+                </Link>
               </div>
             </section>
 
@@ -66,9 +97,8 @@ export default function LaunchMeetupPage() {
 
           {/* Sidebar */}
           <aside className="space-y-6">
-            {/* RSVP card */}
             <div className="sticky top-24 rounded-lg border border-white/8 bg-[var(--color-bg-card)] p-6">
-              <h3 className="text-lg font-bold">Join Us</h3>
+              <h3 className="text-lg font-bold">Event Details</h3>
 
               <div className="mt-4 space-y-3 text-sm text-[var(--color-text-muted)]">
                 <div className="flex items-center gap-2">
@@ -94,14 +124,29 @@ export default function LaunchMeetupPage() {
                 </div>
               </div>
 
-              <a
-                href={launchEvent.rsvpUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 block w-full rounded-md bg-[var(--color-accent)] py-3 text-center text-sm font-semibold transition-colors hover:bg-[var(--color-accent-hover)]"
-              >
-                RSVP — It&apos;s Free
-              </a>
+              {hasRsvpLink ? (
+                <a
+                  href={launchEvent.rsvpUrl!}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 block w-full rounded-md bg-[var(--color-accent)] py-3 text-center text-sm font-semibold transition-colors hover:bg-[var(--color-accent-hover)]"
+                >
+                  RSVP — It&apos;s Free
+                </a>
+              ) : (
+                <div className="mt-6">
+                  <p className="text-sm text-[var(--color-text-muted)]">
+                    RSVP link coming soon. Subscribe to be the first to know
+                    when registration opens.
+                  </p>
+                  <Link
+                    href="/community"
+                    className="mt-3 block w-full rounded-md bg-[var(--color-accent)] py-3 text-center text-sm font-semibold transition-colors hover:bg-[var(--color-accent-hover)]"
+                  >
+                    Join the List
+                  </Link>
+                </div>
+              )}
             </div>
           </aside>
         </div>

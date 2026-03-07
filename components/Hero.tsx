@@ -21,8 +21,8 @@ export function Hero() {
         </h1>
 
         <p className="mx-auto mt-6 max-w-[600px] text-lg text-[var(--color-text-muted)] md:text-xl">
-          The first builder-focused AI community in Western Massachusetts.
-          Meetups, demos, and real projects — not just AI hype.
+          A builder-focused AI community for Western Massachusetts. Meetups,
+          demos, and real projects — not just AI hype.
         </p>
 
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -30,7 +30,7 @@ export function Hero() {
             href="/events/launch-meetup"
             className="rounded-md bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold transition-colors hover:bg-[var(--color-accent-hover)]"
           >
-            RSVP for the First Meetup
+            See the First Meetup
           </Link>
           <Link
             href="/community"
