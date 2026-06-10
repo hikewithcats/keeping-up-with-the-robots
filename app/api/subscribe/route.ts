@@ -8,7 +8,9 @@ import { NextResponse } from "next/server";
 //   RESEND_AUDIENCE_ID   — your Resend audience ID (recommended)
 //
 // Behavior:
-//   - With both vars set: adds the contact to your Resend audience
+//   - With both vars set: adds the contact to your Resend audience.
+//     The optional "What do you do?" answer is stored on the contact's
+//     last_name field so it's visible in the Resend dashboard.
 //   - With only API key:  sends a welcome email to the subscriber
 //   - With neither:       logs to console and returns success (dev mode)
 //
@@ -17,7 +19,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json();
+    const { email, role } = await request.json();
 
     if (!email || typeof email !== "string" || !email.includes("@")) {
       return NextResponse.json(
@@ -26,11 +28,14 @@ export async function POST(request: Request) {
       );
     }
 
+    const roleNote =
+      typeof role === "string" && role.trim() ? role.trim().slice(0, 120) : null;
+
     const apiKey = process.env.RESEND_API_KEY;
 
     if (!apiKey) {
       // No Resend key — log and return success (safe for local dev)
-      console.log("Newsletter signup (no RESEND_API_KEY set):", email);
+      console.log("Newsletter signup (no RESEND_API_KEY set):", email, roleNote);
       return NextResponse.json({ success: true });
     }
 
@@ -46,7 +51,10 @@ export async function POST(request: Request) {
             Authorization: `Bearer ${apiKey}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify({
+            email,
+            ...(roleNote ? { last_name: roleNote } : {}),
+          }),
         }
       );
 
@@ -69,8 +77,8 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           from: "Keeping Up With The Robots <hello@keepingupwiththerobots.com>",
           to: email,
-          subject: "Welcome to Keeping Up With The Robots!",
-          html: `<p>You're in! We'll keep you posted on meetups, builder spotlights, and what the Western Mass AI community is building.</p><p>— Keeping Up With The Robots</p>`,
+          subject: "You're in — Keeping Up With The Robots",
+          html: `<p>Signal received. You're on the list for the Western Mass AI dispatch — practical tools, prompts, workflows, local use cases, and event news.</p><p>One useful email at a time. No spam. No guru nonsense.</p><p>— Keeping Up With The Robots</p>`,
         }),
       });
 

@@ -2,77 +2,138 @@
 
 import { useState } from "react";
 
-export function NewsletterForm() {
+type Variant = "dark" | "cream";
+
+export function NewsletterForm({
+  variant = "dark",
+  ctaLabel = "Send me the AI dispatch",
+  showRole = false,
+  microcopy = "Free. Local. Practical. No hype.",
+}: {
+  variant?: Variant;
+  ctaLabel?: string;
+  showRole?: boolean;
+  microcopy?: string | null;
+}) {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [role, setRole] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [message, setMessage] = useState("");
+
+  const dark = variant === "dark";
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email) return;
-
     setStatus("loading");
     try {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, role: role || undefined }),
       });
-
       const data = await res.json();
-
-      if (res.ok) {
-        setStatus("success");
-        setMessage("You're in! Check your inbox.");
-        setEmail("");
-      } else {
+      if (!res.ok) {
         setStatus("error");
         setMessage(data.error || "Something went wrong. Try again.");
+        return;
       }
+      setStatus("success");
     } catch {
       setStatus("error");
       setMessage("Something went wrong. Try again.");
     }
   }
 
-  return (
-    <section className="px-6 py-24">
-      <div className="mx-auto max-w-[500px] text-center">
-        <h2 className="text-2xl font-bold md:text-3xl">Stay in the loop.</h2>
-        <p className="mt-3 text-[var(--color-text-muted)]">
-          Get updates on meetups, builder spotlights, and what the Western Mass
-          AI community is building.
+  if (status === "success") {
+    return (
+      <div
+        className={`border p-5 ${
+          dark
+            ? "border-signal/50 bg-ink-3"
+            : "border-moss/40 bg-cream-2"
+        }`}
+        role="status"
+      >
+        <p
+          className={`font-mono text-sm font-semibold uppercase tracking-widest ${
+            dark ? "text-signal" : "text-moss"
+          }`}
+        >
+          ▸ Signal received
         </p>
-
-        <form onSubmit={handleSubmit} className="mt-8 flex gap-3">
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            className="flex-1 rounded-md border border-white/15 bg-[var(--color-bg-card)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] outline-none focus:border-[var(--color-accent)] transition-colors"
-          />
-          <button
-            type="submit"
-            disabled={status === "loading"}
-            className="rounded-md bg-[var(--color-accent)] px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-[var(--color-accent-hover)] disabled:opacity-50"
-          >
-            {status === "loading" ? "..." : "Subscribe"}
-          </button>
-        </form>
-
-        {status === "success" && (
-          <p className="mt-3 text-sm text-green-400">{message}</p>
-        )}
-        {status === "error" && (
-          <p className="mt-3 text-sm text-red-400">{message}</p>
-        )}
-
-        <p className="mt-4 text-xs text-[var(--color-text-muted)]">
-          No spam. Unsubscribe anytime.
+        <p className={`mt-2 text-sm ${dark ? "text-fog" : "text-ash"}`}>
+          You&apos;re on the list. The next dispatch lands in your inbox —
+          useful, local, and short enough to read with your coffee.
         </p>
       </div>
-    </section>
+    );
+  }
+
+  const inputClasses = dark
+    ? "border-line bg-ink-2 text-cream placeholder:text-fog/60 focus:border-signal"
+    : "border-cream-line bg-cream text-ink placeholder:text-ash/70 focus:border-moss";
+
+  return (
+    <form onSubmit={handleSubmit} className="w-full max-w-xl">
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <label className="sr-only" htmlFor={`email-${variant}`}>
+          Email address
+        </label>
+        <input
+          id={`email-${variant}`}
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@yourbusiness.com"
+          className={`h-12 flex-1 border px-4 text-sm outline-none transition-colors ${inputClasses}`}
+        />
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className={`h-12 shrink-0 px-6 font-mono text-xs font-semibold uppercase tracking-widest transition-colors disabled:opacity-60 ${
+            dark
+              ? "border border-signal bg-signal text-ink hover:bg-transparent hover:text-signal"
+              : "border border-ink bg-ink text-signal hover:bg-moss hover:border-moss"
+          }`}
+        >
+          {status === "loading" ? "Sending…" : ctaLabel}
+        </button>
+      </div>
+
+      {showRole && (
+        <div className="mt-3">
+          <label className="sr-only" htmlFor={`role-${variant}`}>
+            What do you do? (optional)
+          </label>
+          <input
+            id={`role-${variant}`}
+            type="text"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            placeholder="What do you do? e.g. realtor, cafe owner, freelancer (optional)"
+            className={`h-12 w-full border px-4 text-sm outline-none transition-colors ${inputClasses}`}
+          />
+        </div>
+      )}
+
+      {status === "error" && (
+        <p className="mt-3 text-sm text-red-400" role="alert">
+          {message}
+        </p>
+      )}
+
+      {microcopy && (
+        <p
+          className={`mt-3 font-mono text-xs tracking-wide ${
+            dark ? "text-fog" : "text-ash"
+          }`}
+        >
+          {microcopy}
+        </p>
+      )}
+    </form>
   );
 }

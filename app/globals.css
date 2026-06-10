@@ -1,14 +1,30 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0A0A0F;
-  --color-bg-card: #12121A;
-  --color-text-primary: #F5F5F5;
-  --color-text-muted: #A0A0B0;
-  --color-accent: #E94560;
-  --color-accent-hover: #d63d56;
-  --color-secondary: #0F3460;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Ink — green-tinted near-black for dark sections */
+  --color-ink: #0a0e0a;
+  --color-ink-2: #0f150f;
+  --color-ink-3: #151d15;
+  --color-line: #243024;
+  --color-line-bright: #3a4d35;
+
+  /* Cream — editorial light sections */
+  --color-cream: #f2efe2;
+  --color-cream-2: #e9e5d2;
+  --color-cream-line: #d3cdb2;
+
+  /* Signal — the electric green accent */
+  --color-signal: #a3ff3c;
+  --color-signal-soft: #ccff94;
+  --color-moss: #3c6328; /* accent text on cream, accessible */
+
+  /* Muted text */
+  --color-fog: #aab7a6; /* on ink */
+  --color-ash: #57624d; /* on cream */
+
+  --font-sans: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo,
+    monospace;
 }
 
 html {
@@ -16,14 +32,88 @@ html {
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
+  background-color: var(--color-ink);
+  color: var(--color-cream);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background-color: var(--color-accent);
-  color: white;
+  background-color: var(--color-signal);
+  color: var(--color-ink);
+}
+
+/* ---- Motifs ---------------------------------------------- */
+
+/* Dotted grid backdrop for dark sections */
+.bg-dots {
+  background-image: radial-gradient(var(--color-line) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+/* Mono section kicker: ▸ DISPATCH_01 */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Scrolling ticker */
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker-track {
+  animation: ticker-scroll 36s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Signal lines on the town map */
+@keyframes signal-dash {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+.signal-line {
+  stroke-dasharray: 3 11;
+  animation: signal-dash 2.6s linear infinite;
+}
+
+/* Blinking LIVE dot */
+@keyframes blink {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  60%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+.blink {
+  animation: blink 1.6s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signal-line,
+  .blink {
+    animation: none;
+  }
 }

@@ -1,74 +1,90 @@
 import Link from "next/link";
 import { siteConfig, navLinks } from "@/content/site";
+import { RobotMark } from "@/components/Navbar";
 
 export function Footer() {
   const socialLinks = [
     { label: "Discord", url: siteConfig.discord },
     { label: "X / Twitter", url: siteConfig.twitter },
     { label: "LinkedIn", url: siteConfig.linkedin },
-  ];
-
-  const hasAnySocial = socialLinks.some((l) => l.url);
+  ].filter((l) => l.url);
 
   return (
-    <footer className="border-t border-white/8 bg-[var(--color-bg)]">
-      <div className={`mx-auto grid max-w-[1200px] gap-8 px-6 py-16 ${hasAnySocial ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
-        {/* Brand */}
-        <div>
-          <p className="font-bold">{siteConfig.name}</p>
-          <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-            {siteConfig.tagline}
-          </p>
-        </div>
-
-        {/* Nav links */}
-        <div className="flex flex-col gap-2">
-          <Link
-            href="/"
-            className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text-primary)]"
-          >
-            Home
-          </Link>
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text-primary)]"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Social — only render column if at least one link exists */}
-        {hasAnySocial && (
-          <div className="flex flex-col gap-2">
-            {socialLinks.map((link) =>
-              link.url ? (
-                <a
-                  key={link.label}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text-primary)]"
-                >
-                  {link.label}
-                </a>
-              ) : null
-            )}
+    <footer className="border-t border-line bg-ink-2">
+      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <div className="flex flex-col gap-10 md:flex-row md:justify-between">
+          <div className="max-w-sm">
+            <div className="flex items-center gap-2.5">
+              <RobotMark className="h-7 w-7" />
+              <span className="font-bold tracking-tight">
+                Keeping Up With The Robots
+              </span>
+            </div>
+            <p className="kicker mt-3 text-fog">
+              Western Mass AI Newsletter &amp; Community
+            </p>
+            <p className="mt-4 text-sm leading-relaxed text-fog">
+              Tools, prompts, workflows, events, and local people figuring it
+              out — from Greenfield to Springfield and everywhere in between.
+            </p>
           </div>
-        )}
-      </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/8 px-6 py-6">
-        <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 text-xs text-[var(--color-text-muted)] sm:flex-row">
-          <p>&copy; {new Date().getFullYear()} {siteConfig.name}</p>
-          <p>
-            Built with{" "}
-            <span className="font-medium text-[var(--color-text-primary)]">
-              Claude Code
-            </span>
+          <div className="flex gap-16">
+            <div>
+              <h3 className="kicker text-signal">Explore</h3>
+              <ul className="mt-4 space-y-2.5">
+                {navLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-fog transition-colors hover:text-signal"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="kicker text-signal">Connect</h3>
+              <ul className="mt-4 space-y-2.5">
+                <li>
+                  <a
+                    href={`mailto:${siteConfig.contactEmail}`}
+                    className="text-sm text-fog transition-colors hover:text-signal"
+                  >
+                    Email us
+                  </a>
+                </li>
+                {socialLinks.map((l) => (
+                  <li key={l.label}>
+                    <a
+                      href={l.url!}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-fog transition-colors hover:text-signal"
+                    >
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <Link
+                    href="/newsletter"
+                    className="text-sm text-signal transition-colors hover:text-signal-soft"
+                  >
+                    Join the newsletter →
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 font-mono text-xs text-fog sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 Keeping Up With The Robots</p>
+          <p className="text-signal/80">
+            Built in Western Mass for people keeping up with the robots.
           </p>
         </div>
       </div>

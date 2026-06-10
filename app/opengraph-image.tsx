@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Keeping Up With The Robots — Western Mass AI Builders";
+export const alt =
+  "Keeping Up With The Robots — Western Mass AI Newsletter & Community";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -13,75 +14,112 @@ export default function OGImage() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#0A0A0F",
-          padding: "60px 80px",
+          justifyContent: "space-between",
+          background: "#0a0e0a",
+          backgroundImage:
+            "radial-gradient(circle, #243024 2px, transparent 2px)",
+          backgroundSize: "48px 48px",
+          padding: "64px 80px",
         }}
       >
-        {/* Top accent line */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 4,
-            background: "#E94560",
-          }}
-        />
-
+        {/* Top bar */}
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
+            justifyContent: "space-between",
           }}
         >
           <div
             style={{
-              fontSize: 64,
+              display: "flex",
+              fontSize: 22,
+              color: "#aab7a6",
+              letterSpacing: "0.25em",
+              textTransform: "uppercase",
+            }}
+          >
+            &gt;&gt; Western_Mass_AI_Dispatch
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              fontSize: 22,
+              color: "#a3ff3c",
+              letterSpacing: "0.25em",
+              textTransform: "uppercase",
+            }}
+          >
+            <div
+              style={{
+                width: 12,
+                height: 12,
+                borderRadius: 12,
+                background: "#a3ff3c",
+              }}
+            />
+            Live
+          </div>
+        </div>
+
+        {/* Headline */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{
+              fontSize: 78,
               fontWeight: 800,
-              color: "#F5F5F5",
-              lineHeight: 1.1,
+              color: "#f2efe2",
+              lineHeight: 1.05,
               letterSpacing: "-0.02em",
             }}
           >
-            Build With AI.
+            AI is moving fast.
           </div>
           <div
             style={{
-              fontSize: 64,
+              fontSize: 78,
               fontWeight: 800,
-              color: "#E94560",
-              lineHeight: 1.1,
+              color: "#a3ff3c",
+              lineHeight: 1.05,
               letterSpacing: "-0.02em",
-              marginTop: 8,
             }}
           >
-            Ship With Friends.
+            Western Mass is keeping up.
           </div>
-
           <div
             style={{
-              fontSize: 24,
-              color: "#A0A0B0",
-              marginTop: 32,
-              maxWidth: 700,
+              fontSize: 28,
+              color: "#aab7a6",
+              marginTop: 28,
+              maxWidth: 900,
             }}
           >
-            A builder-focused AI community for Western Massachusetts
+            A practical local AI newsletter & community for small business
+            owners, creators, operators, and builders.
           </div>
+        </div>
 
+        {/* Bottom bar */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderTop: "2px solid #243024",
+            paddingTop: 28,
+          }}
+        >
+          <div style={{ display: "flex", fontSize: 24, color: "#f2efe2" }}>
+            Keeping Up With The Robots
+          </div>
           <div
             style={{
-              fontSize: 18,
-              color: "#F5F5F5",
-              marginTop: 48,
-              opacity: 0.6,
-              letterSpacing: "0.05em",
+              display: "flex",
+              fontSize: 22,
+              color: "#a3ff3c",
+              letterSpacing: "0.1em",
             }}
           >
             KEEPINGUPWITHTHEROBOTS.COM

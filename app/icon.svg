@@ -1,5 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#0A0A0F"/>
-  <rect x="2" y="2" width="28" height="28" rx="6" fill="none" stroke="#E94560" stroke-width="2"/>
-  <text x="16" y="22" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="800" font-size="18" fill="#F5F5F5">K</text>
+  <rect width="32" height="32" rx="6" fill="#0a0e0a"/>
+  <circle cx="16" cy="7" r="2.2" fill="#a3ff3c"/>
+  <line x1="16" y1="9.5" x2="16" y2="12" stroke="#a3ff3c" stroke-width="2"/>
+  <rect x="7" y="12" width="18" height="14" rx="2.5" fill="none" stroke="#f2efe2" stroke-width="2"/>
+  <rect x="11" y="17" width="3.5" height="3.5" fill="#a3ff3c"/>
+  <rect x="17.5" y="17" width="3.5" height="3.5" fill="#a3ff3c"/>
 </svg>
